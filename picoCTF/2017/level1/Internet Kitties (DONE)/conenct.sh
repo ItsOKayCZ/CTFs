@@ -1,0 +1,1 @@
+ nc -vv shell2017.picoctf.com 43099
