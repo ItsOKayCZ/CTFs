@@ -4,7 +4,7 @@ import struct
 import time
 import telnetlib
 
-T = "192.168.135.133"
+T = "192.168.159.130"
 P = 20002
 key_sz = 32*4
 
